@@ -247,7 +247,11 @@ sint8 nm_drv_init_download_mode(void)
 
 #ifdef CONF_WINC_USE_SPI
 	/* Must do this after global reset to set SPI data packet size. */
-	nm_spi_init();
+	ret |= nm_spi_init();
+	if (ret != M2M_SUCCESS) {
+		M2M_ERR("[nm_drv_init_download_mode]: failed to initialize SPI with code %i", ret);
+		return ret;
+	}
 #endif
 
 	M2M_INFO("Chip ID %lx\n", nmi_get_chipid());
@@ -292,7 +296,11 @@ sint8 nm_drv_init_hold(void)
 	M2M_INFO("Chip ID %lx\n", nmi_get_chipid());
 #ifdef CONF_WINC_USE_SPI
 	/* Must do this after global reset to set SPI data packet size. */
-	nm_spi_init();
+	ret = nm_spi_init();
+	if (ret != M2M_SUCCESS) {
+		M2M_ERR("[nm_drv_init_hold]: failed to initialize SPI with code %i", ret);
+		goto ERR1;
+	}
 #endif
 	M2M_DBG("nm_drv_init_hold done\n");
 	return ret;

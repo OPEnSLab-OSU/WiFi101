@@ -317,6 +317,7 @@ int WiFiClass::init()
 			m2m_periph_gpio_set_dir(M2M_PERIPH_GPIO6, 1);
 		}
 #endif
+		if (ret == M2M_ERR_FIRMWARE) Serial.println("There was an error initializing the ATWINC1500! Check your ATWINC1500 firmware version and WiFi.setPins() calls!");
 		return ret;
 	}
 
