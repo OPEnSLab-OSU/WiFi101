@@ -334,12 +334,8 @@ int WiFiClass::init()
 	_resolve = 0;
 	_remoteMacAddress = 0;
 
-	/* TODO: check firmware in a real way
-	if (nmdrv_firm_ver >= M2M_MAKE_VERSION(19, 5, 0)) {
-		// enable AES-128 and AES-256 Ciphers, if firmware is 19.5.0 or higher
-		m2m_ssl_set_active_ciphersuites(SSL_NON_ECC_CIPHERS_AES_128 | SSL_NON_ECC_CIPHERS_AES_256);
-	}
-	*/
+	// enable ssl
+	m2m_ssl_set_active_ciphersuites(SSL_NON_ECC_CIPHERS_AES_128 | SSL_NON_ECC_CIPHERS_AES_256);
 
 #ifdef CONF_PERIPH
 	print("CONF_PERIPH");

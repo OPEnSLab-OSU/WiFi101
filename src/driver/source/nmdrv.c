@@ -298,7 +298,7 @@ sint8 nm_drv_init_hold(void)
 	/* Must do this after global reset to set SPI data packet size. */
 	ret = nm_spi_init();
 	if (ret != M2M_SUCCESS) {
-		M2M_ERR("[nm_drv_init_hold]: failed to initialize SPI with code %i", ret);
+		M2M_ERR("[nm_drv_init_hold]: failed to initialize SPI with code %i\n", ret);
 		goto ERR1;
 	}
 #endif

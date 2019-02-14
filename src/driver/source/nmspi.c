@@ -1238,12 +1238,12 @@ sint8 nm_spi_init(void)
 	/**
 		make sure can read back chip id correctly
 	**/
-	const uint8_t id = spi_read_reg(0x1000, &chipid);
-	if (!id) {
+	const uint8_t read = spi_read_reg(0x1000, &chipid);
+	if (!read || !chipid) {
 		M2M_ERR("[nmi spi]: Fail cmd read chip id...\n");
 		return M2M_ERR_BUS_FAIL;
 	}
-	else if (REV(id) != REV_3A0) {
+	else if (REV(chipid) != REV_3A0) {
 		M2M_ERR("[nmi_spi]: Invalid wifi firmware version! Please upgrade your firmware, or check that you called WiFi.setPins().\n");
 		return M2M_ERR_FIRMWARE;
 	}
