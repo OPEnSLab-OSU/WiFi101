@@ -50,6 +50,7 @@ INCLUDES
 #endif
 #endif
 #endif
+#include <assert.h>
 
 
 /*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
@@ -684,7 +685,7 @@ typedef struct {
 	*/
 }tstrM2mPwrMode;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mPwrMode)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mPwrMode)%4)==0, "Structure alignment error");
@@ -723,7 +724,7 @@ typedef struct {
 	*/
 }tstrM2mTxPwrLevel;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mTxPwrLevel)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mTxPwrLevel)%4)==0, "Structure alignment error");
@@ -746,7 +747,7 @@ typedef struct {
 	*/
 }tstrM2mWiFiGainIdx;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWiFiGainIdx)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWiFiGainIdx)%4)==0, "Structure alignment error");
@@ -769,7 +770,7 @@ typedef struct {
 	*/
 }tstrM2mEnableLogs;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mEnableLogs)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mEnableLogs)%4)==0, "Structure alignment error");
@@ -793,7 +794,7 @@ typedef struct {
 	*/
 }tstrM2mBatteryVoltage;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mBatteryVoltage)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mBatteryVoltage)%4)==0, "Structure alignment error");
@@ -819,7 +820,7 @@ typedef struct {
 	*/
 }tstrM2mWiFiRoaming;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWiFiRoaming)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWiFiRoaming)%4)==0, "Structure alignment error");
@@ -1489,7 +1490,7 @@ typedef struct{
 	/*!< Wi-Fi channel(s) on which to attempt connection. */
 }tstrM2mConnCredHdr;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mConnCredHdr)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mConnCredHdr)%4)==0, "Structure alignment error");
@@ -1520,7 +1521,7 @@ typedef struct{
 	/*!< Reserved for future use. Set to 0. */
 }tstrM2mConnCredCmn;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mConnCredCmn)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mConnCredCmn)%4)==0, "Structure alignment error");
@@ -1545,7 +1546,7 @@ typedef struct{
 	/*!< Reserved for future use. Set to 0. */
 }tstrM2mWifiWep;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifiWep)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifiWep)%4)==0, "Structure alignment error");
@@ -1572,7 +1573,7 @@ typedef struct{
 	/*!< Reserved for future use. Set to 0. */
 }tstrM2mWifiPsk;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifiPsk)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifiPsk)%4)==0, "Structure alignment error");
@@ -1614,7 +1615,7 @@ typedef struct{
 			Certificate (for 1x Tls only) is sent over HIF separately from the other parameters. */
 }tstrM2mWifi1xHdr;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifi1xHdr)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifi1xHdr)%4)==0, "Structure alignment error");
@@ -1644,7 +1645,7 @@ typedef struct{
 	/*!< Placeholder for info. */
 }tstrM2mWifiAuthInfoHdr;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifiAuthInfoHdr)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifiAuthInfoHdr)%4)==0, "Structure alignment error");
@@ -1672,7 +1673,7 @@ typedef struct{
 	/*!< Credentials common section, including auth type and SSID. */
 }tstrM2mWifiConnHdr;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifiConnHdr)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifiConnHdr)%4)==0, "Structure alignment error");
@@ -1697,7 +1698,7 @@ typedef struct{
 	*/
 }tstrM2mWifiApId;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifiApId)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifiApId)%4)==0, "Structure alignment error");
@@ -1721,7 +1722,7 @@ typedef struct{
 	uint8	__PAD24__[3];
 }tstrM2MGenericResp;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MGenericResp)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MGenericResp)%4)==0, "Structure alignment error");
@@ -1750,7 +1751,7 @@ typedef struct {
 	*/
 }tstrM2MWPSConnect;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MWPSConnect)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MWPSConnect)%4)==0, "Structure alignment error");
@@ -1807,7 +1808,7 @@ typedef struct{
 	uint8	__PAD24__[3];
 }tstrM2MDefaultConnResp;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MDefaultConnResp)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MDefaultConnResp)%4)==0, "Structure alignment error");
@@ -1871,7 +1872,7 @@ typedef struct {
 	/*!< Padding bytes for forcing 4-byte alignment */
 }tstrM2MScanRegion;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MScanRegion)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MScanRegion)%4)==0, "Structure alignment error");
@@ -1919,7 +1920,7 @@ typedef struct {
 	*/
 }tstrCyptoResp;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrCyptoResp)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrCyptoResp)%4)==0, "Structure alignment error");
@@ -1945,7 +1946,7 @@ typedef struct{
 	*/
 }tstrM2mScanDone;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mScanDone)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mScanDone)%4)==0, "Structure alignment error");
@@ -1969,7 +1970,7 @@ typedef struct {
 	*/
 }tstrM2mReqScanResult;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mReqScanResult)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mReqScanResult)%4)==0, "Structure alignment error");
@@ -2008,7 +2009,7 @@ typedef struct {
 	*/
 }tstrM2mWifiscanResult;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifiscanResult)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifiscanResult)%4)==0, "Structure alignment error");
@@ -2037,7 +2038,7 @@ typedef struct {
 	*/
 }tstrM2mWifiStateChanged;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mWifiStateChanged)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mWifiStateChanged)%4)==0, "Structure alignment error");
@@ -2066,7 +2067,7 @@ typedef struct{
 	*/
 }tstrM2mPsType;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mPsType)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mPsType)%4)==0, "Structure alignment error");
@@ -2106,7 +2107,7 @@ typedef struct {
 	*/
 }tstrM2mLsnInt;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mLsnInt)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mLsnInt)%4)==0, "Structure alignment error");
@@ -2150,7 +2151,7 @@ typedef struct{
 	*/
 }tstrM2MWifiMonitorModeCtrl;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MWifiMonitorModeCtrl)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MWifiMonitorModeCtrl)%4)==0, "Structure alignment error");
@@ -2211,7 +2212,7 @@ typedef struct{
 	*/
 }tstrM2MWifiRxPacketInfo;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MWifiRxPacketInfo)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MWifiRxPacketInfo)%4)==0, "Structure alignment error");
@@ -2258,7 +2259,7 @@ typedef struct {
 	*/
 }tstrM2MP2PConnect;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MP2PConnect)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MP2PConnect)%4)==0, "Structure alignment error");
@@ -2318,7 +2319,7 @@ typedef struct {
 	*/
 }tstrM2MAPConfig;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MAPConfig)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MAPConfig)%4)==0, "Structure alignment error");
@@ -2349,7 +2350,7 @@ typedef struct {
 	*/
 }tstrM2MAPConfigExt;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MAPConfigExt)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MAPConfigExt)%4)==0, "Structure alignment error");
@@ -2377,7 +2378,7 @@ typedef struct {
 	*/
 }tstrM2MAPModeConfig;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MAPModeConfig)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MAPModeConfig)%4)==0, "Structure alignment error");
@@ -2400,7 +2401,7 @@ typedef struct {
 	*/
 }tstrM2mServerInit;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mServerInit)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mServerInit)%4)==0, "Structure alignment error");
@@ -2423,7 +2424,7 @@ typedef struct {
 	*/
 }tstrM2mClientState;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mClientState)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mClientState)%4)==0, "Structure alignment error");
@@ -2446,7 +2447,7 @@ typedef struct {
 	*/
 }tstrM2Mservercmd;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2Mservercmd)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2Mservercmd)%4)==0, "Structure alignment error");
@@ -2473,7 +2474,7 @@ typedef struct {
 	*/
 }tstrM2mSetMacAddress;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2mSetMacAddress)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2mSetMacAddress)%4)==0, "Structure alignment error");
@@ -2572,7 +2573,7 @@ typedef struct {
 	uint8			__PAD24__[3];
 }tstrM2MProvisionModeConfig;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MProvisionModeConfig)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MProvisionModeConfig)%4)==0, "Structure alignment error");
@@ -2632,7 +2633,7 @@ typedef struct{
 	/*!< Padding bytes for forcing 4-byte alignment */
 }tstrM2MConnInfo;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MConnInfo)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MConnInfo)%4)==0, "Structure alignment error");
@@ -2683,7 +2684,7 @@ typedef struct {
     */
 } tstrTlsCrlEntry;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrTlsCrlEntry)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrTlsCrlEntry)%4)==0, "Structure alignment error");
@@ -2842,7 +2843,7 @@ typedef struct {
 #endif
 }tstrM2MSNTPConfig;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MSNTPConfig)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MSNTPConfig)%4)==0, "Structure alignment error");
@@ -3072,7 +3073,7 @@ typedef struct {
 	uint8 _PAD16_[2];
 }tstrOtaUpdateStatusResp;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrOtaUpdateStatusResp)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrOtaUpdateStatusResp)%4)==0, "Structure alignment error");
@@ -3113,7 +3114,7 @@ typedef struct {
 	*/
 } tstrOtaUpdateInfo;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrOtaUpdateInfo)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrOtaUpdateInfo)%4)==0, "Structure alignment error");
@@ -3151,7 +3152,7 @@ typedef struct {
 }tstrOtaHostFileGetStatusResp;
 
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrOtaHostFileGetStatusResp)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrOtaHostFileGetStatusResp)%4)==0, "Structure alignment error");
@@ -3190,7 +3191,7 @@ typedef struct {
     */
 }tstrOtaHostFileReadStatusResp;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrOtaHostFileReadStatusResp)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrOtaHostFileReadStatusResp)%4)==0, "Structure alignment error");
@@ -3216,7 +3217,7 @@ typedef struct {
      */
 }tstrOtaHostFileEraseStatusResp;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrOtaHostFileEraseStatusResp)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrOtaHostFileEraseStatusResp)%4)==0, "Structure alignment error");
@@ -3246,7 +3247,7 @@ typedef struct{
 	uint8	__PAD8__;
 }tstrSystemTime;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrSystemTime)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrSystemTime)%4)==0, "Structure alignment error");
@@ -3274,7 +3275,7 @@ static_assert((sizeof(tstrSystemTime)%4)==0, "Structure alignment error");
 	*/
 }tstrM2MMulticastMac;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrM2MMulticastMac)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrM2MMulticastMac)%4)==0, "Structure alignment error");
@@ -3303,7 +3304,7 @@ static_assert((sizeof(tstrM2MMulticastMac)%4)==0, "Structure alignment error");
 	uint8 __PAD16__[2];
 }tstrPrng;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrPrng)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrPrng)%4)==0, "Structure alignment error");
@@ -3430,7 +3431,7 @@ typedef struct {
 	*/
 } tstrConfAutoRate;
 #ifndef _lint
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(ARDUINO)
 _Static_assert((sizeof(tstrConfAutoRate)%4)==0, "Structure alignment error");
 #else
 static_assert((sizeof(tstrConfAutoRate)%4)==0, "Structure alignment error");

@@ -313,12 +313,12 @@ int WiFiClass::init()
 	_resolve = 0;
 	_remoteMacAddress = 0;
 
-	extern uint32 nmdrv_firm_ver;
-
+	/* TODO: check firmware in a real way
 	if (nmdrv_firm_ver >= M2M_MAKE_VERSION(19, 5, 0)) {
 		// enable AES-128 and AES-256 Ciphers, if firmware is 19.5.0 or higher
 		m2m_ssl_set_active_ciphersuites(SSL_NON_ECC_CIPHERS_AES_128 | SSL_NON_ECC_CIPHERS_AES_256);
 	}
+	*/
 
 #ifdef CONF_PERIPH
 	// Initialize IO expander LED control (rev A then rev B)..
@@ -1143,7 +1143,7 @@ uint32_t WiFiClass::getTime()
 
 	_resolve = (uint32_t)&systemTime;
 
-	m2m_wifi_get_sytem_time();
+	m2m_wifi_get_system_time();
 
 	unsigned long start = millis();
 	while (_resolve != 0 && millis() - start < 5000) {
