@@ -395,6 +395,7 @@ sint8 chip_reset(void)
 
 sint8 wait_for_bootrom(uint8 arg)
 {
+	M2M_DBG("wait_for_bootrom\n");
 	sint8 ret = M2M_SUCCESS;
 	uint32 reg = 0, cnt = 0;
 	uint32 u32GpReg1 = 0;
@@ -412,9 +413,10 @@ sint8 wait_for_bootrom(uint8 arg)
 		}
 		nm_bsp_sleep(1); /* TODO: Why bus error if this delay is not here. */
 	}
+	M2M_DBG("read regiter\n");
 	reg = nm_read_reg(M2M_WAIT_FOR_HOST_REG);
 	reg &= 0x1;
-
+	M2M_DBG("register: %i \n", reg);
 	/* check if waiting for the host will be skipped or not */
 	if(reg == 0)
 	{
@@ -446,6 +448,8 @@ sint8 wait_for_bootrom(uint8 arg)
 		/*bypass this step*/
 		nm_write_reg(NMI_STATE_REG, u32DriverVerInfo);
 	}
+	M2M_DBG("Here I guess!\n");
+	M2M_DBG("Chip ID: %x \n", nmi_get_chipid());
 
 	if(REV(nmi_get_chipid()) >= REV_3A0){
 		chip_apply_conf(u32GpReg1 | rHAVE_USE_PMU_BIT);
@@ -459,7 +463,7 @@ sint8 wait_for_bootrom(uint8 arg)
 #ifdef __ROM_TEST__
 	rom_test();
 #endif /* __ROM_TEST__ */
-
+	M2M_DBG("wait_for_bootrom done\n");
 ERR2:
 	return ret;
 }

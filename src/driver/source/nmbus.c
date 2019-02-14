@@ -50,8 +50,10 @@
 */
 sint8 nm_bus_iface_init(void *pvInitVal)
 {
+	M2M_DBG("nm_bus_iface_init\n");
 	sint8 ret = M2M_SUCCESS;
 	ret = nm_bus_init(pvInitVal);
+	M2M_DBG("nm_bus_iface_init done\n");
 	return ret;
 }
 

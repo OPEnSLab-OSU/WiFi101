@@ -82,7 +82,7 @@ typedef enum {
 class WiFiClass
 {
 public:
-	WiFiClass();
+	WiFiClass(const bool debug = false);
 
 	void setPins(int8_t cs, int8_t irq, int8_t rst, int8_t en = -1);
 
@@ -171,6 +171,8 @@ public:
 	void setTimeout(unsigned long timeout);
 
 private:
+	const bool _debug;
+
 	int _init;
 	char _version[9];
 
@@ -193,6 +195,15 @@ private:
 	uint8_t* remoteMacAddress(uint8_t* remoteMacAddress);
 
 	uint8_t startProvision(const char *ssid, const char *url, uint8_t channel);
+
+	template<typename T>
+	constexpr void print(T printed){ 
+		if(_debug && Serial) { 
+			Serial.print("WiFi101 DEBUG: "); 
+			Serial.println(printed); 
+		} 
+	}
+
 };
 
 extern WiFiClass WiFi;

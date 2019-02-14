@@ -261,6 +261,7 @@ ERR1:
 
 sint8 nm_drv_init_hold(void)
 {
+	M2M_DBG("nm_drv_init_hold\n");
 	sint8 ret = M2M_SUCCESS;
 	
 	ret = nm_bus_iface_init(NULL);
@@ -293,7 +294,7 @@ sint8 nm_drv_init_hold(void)
 	/* Must do this after global reset to set SPI data packet size. */
 	nm_spi_init();
 #endif
-
+	M2M_DBG("nm_drv_init_hold done\n");
 	return ret;
 #ifdef NO_HW_CHIP_EN
 ERR2:
@@ -305,6 +306,7 @@ ERR1:
 
 sint8 nm_drv_init_start(void * arg)
 {
+	M2M_DBG("nm_drv_init_start\n");
 	sint8 ret = M2M_SUCCESS;
 	uint8 u8Mode = M2M_WIFI_MODE_NORMAL;
 
@@ -336,7 +338,7 @@ sint8 nm_drv_init_start(void * arg)
 		M2M_ERR("failed to enable interrupts..\n");
 		goto ERR2;
 	}
-
+	M2M_DBG("nm_drv_init_start done\n");
 	return ret;
 ERR2:
 	nm_bus_iface_deinit();

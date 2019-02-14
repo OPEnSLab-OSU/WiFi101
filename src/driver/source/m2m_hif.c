@@ -249,9 +249,11 @@ ERR1:
 
 sint8 hif_init(void * arg)
 {
+	M2M_DBG("hif_init");
 	m2m_memset((uint8*)&gstrHifCxt,0,sizeof(tstrHifContext));
 	nm_bsp_register_isr(isr);
 	hif_register_cb(M2M_REQ_GROUP_HIF,m2m_hif_cb);
+	M2M_DBG("hif_init done");
 	return M2M_SUCCESS;
 }
 /**

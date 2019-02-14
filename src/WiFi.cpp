@@ -46,6 +46,20 @@ extern "C" {
   #include "driver/include/m2m_periph.h"
   #include "driver/include/m2m_ssl.h"
   #include "driver/include/m2m_wifi.h"
+
+	#include <stdarg.h>
+	// for debugging purposes
+	void debugPrint(const char* const string) {
+		Serial.println(string);
+	}
+	void debugPrintf(const char* const format, ...) {
+		char str[1024];
+		va_list argptr;
+		va_start(argptr, format);
+		vsnprintf(str, sizeof(str), format, argptr);
+		va_end(argptr);
+		Serial.print(str);
+	}
 }
 
 static void wifi_cb(uint8_t u8MsgType, void *pvMsg)
@@ -263,7 +277,8 @@ void WiFiClass::handlePingResponse(uint32 u32IPAddr, uint32 u32RTT, uint8 u8Erro
 	}
 }
 
-WiFiClass::WiFiClass() :
+WiFiClass::WiFiClass(const bool debug) :
+  _debug(debug),
   _init(0),
   _mode(WL_RESET_MODE),
   _status(WL_NO_SHIELD),
@@ -281,12 +296,16 @@ void WiFiClass::setPins(int8_t cs, int8_t irq, int8_t rst, int8_t en)
 
 int WiFiClass::init()
 {
+	print("Begin init!");
+	
 	tstrWifiInitParam param;
 	int8_t ret;
 
+	print("nm_bsp_init");
 	// Initialize the WiFi BSP:
 	nm_bsp_init();
 
+	print("m2m_wifi_init");
 	// Initialize WiFi module and register status callback:
 	param.pfAppWifiCb = wifi_cb;
 	ret = m2m_wifi_init(&param);
@@ -301,6 +320,7 @@ int WiFiClass::init()
 		return ret;
 	}
 
+	print("socketInit");
 	// Initialize socket API and register socket callback:
 	socketInit();
 	registerSocketCallback(socket_cb, resolve_cb);
@@ -321,6 +341,7 @@ int WiFiClass::init()
 	*/
 
 #ifdef CONF_PERIPH
+	print("CONF_PERIPH");
 	// Initialize IO expander LED control (rev A then rev B)..
 	m2m_periph_gpio_set_val(M2M_PERIPH_GPIO15, 1);
 	m2m_periph_gpio_set_val(M2M_PERIPH_GPIO16, 1);
@@ -1177,4 +1198,5 @@ void WiFiClass::setTimeout(unsigned long timeout)
 	_timeout = timeout;
 }
 
-WiFiClass WiFi;
+// WiFiClass WiFi;
+WiFiClass WiFi(true);

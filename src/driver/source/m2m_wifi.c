@@ -422,6 +422,7 @@ sint8 m2m_wifi_send_crl(tstrTlsCrlInfo* pCRL)
 
 sint8 m2m_wifi_init_hold()
 {
+	M2M_DBG("m2m_wifi_init_hold\n");
 	sint8 ret = M2M_ERR_FAIL;
 
 	/* Apply device specific initialization. */
@@ -431,11 +432,13 @@ sint8 m2m_wifi_init_hold()
         gu8WifiState = WIFI_STATE_INIT;
 	}
 
+	M2M_DBG("m2m_wifi_init_hold done\n");
 	return ret;
 }
 
 sint8 m2m_wifi_init_start(tstrWifiInitParam * pWifiInitParam)
 {
+	M2M_DBG("m2m_wifi_init_start\n");
 	tstrM2mRev strtmp;
 	sint8 ret = M2M_SUCCESS;
 	uint8 u8WifiMode = M2M_WIFI_MODE_NORMAL;
@@ -496,7 +499,7 @@ sint8 m2m_wifi_init(tstrWifiInitParam * pWifiInitParam)
 
 	ret = m2m_wifi_init_hold();
 	if (ret == M2M_SUCCESS)
-{
+	{
 		ret = m2m_wifi_init_start(pWifiInitParam);
 	}
 	return ret;

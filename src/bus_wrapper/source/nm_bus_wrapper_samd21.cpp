@@ -120,19 +120,24 @@ extern "C" {
 */
 sint8 nm_bus_init(void * /* pvInitValue */)
 {
+	M2M_DBG("nm_bus_init\n");
 	sint8 result = M2M_SUCCESS;
 
 	/* Configure SPI peripheral. */
+	M2M_DBG("SPI Begin\n");
 	WINC1501_SPI.begin();
+	M2M_DBG("SPI Begin Done\n");
 	
 	/* Configure CS PIN. */
+	M2M_DBG("Pin Write\n");
 	pinMode(gi8Winc1501CsPin, OUTPUT);
 	digitalWrite(gi8Winc1501CsPin, HIGH);
+	M2M_DBG("Pin Write Done\n");
 
 	/* Reset WINC1500. */
 	nm_bsp_reset();
 	nm_bsp_sleep(1);
-
+	M2M_DBG("nm_bus_init done\n");
 	return result;
 }
 

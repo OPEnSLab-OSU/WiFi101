@@ -43,6 +43,11 @@
  */
 /**@{*/
 
+extern void debugPrint(const char* const string);
+extern void debugPrintf(const char* const format, ...);
+
+#define CONF_WINC_DEBUG 1
+#define CONF_WINC_PRINTF debugPrintf
 
 #define M2M_LOG_NONE									0
 #define M2M_LOG_ERROR									1
@@ -53,7 +58,7 @@
 #if (defined __APS3_CORTUS__)
 #define M2M_LOG_LEVEL									M2M_LOG_INFO
 #else
-#define M2M_LOG_LEVEL									M2M_LOG_REQ
+#define M2M_LOG_LEVEL									M2M_LOG_DBG
 #endif
 
 

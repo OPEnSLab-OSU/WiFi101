@@ -39,6 +39,7 @@
 
 #include "bus_wrapper/include/nm_bus_wrapper.h"
 #include "nmspi.h"
+#include <stdint.h>
 
 #define NMI_PERIPH_REG_BASE 0x1000
 #define NMI_INTR_REG_BASE (NMI_PERIPH_REG_BASE+0xa00)
@@ -1198,6 +1199,7 @@ sint8 nm_spi_reset(void)
 */
 sint8 nm_spi_init(void)
 {
+	M2M_DBG("nm_spi_init\n");
 	uint32 chipid;
 	uint32 reg = 0;
 	
@@ -1243,7 +1245,7 @@ sint8 nm_spi_init(void)
 	M2M_DBG("[nmi spi]: chipid (%08x)\n", (unsigned int)chipid);
 	spi_init_pkt_sz();
 
-
+	M2M_DBG("nm_spi_init done\n");
 	return M2M_SUCCESS;
 }
 
