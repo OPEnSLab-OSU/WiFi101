@@ -2,6 +2,9 @@
   WiFi.h - Library for Arduino Wifi shield.
   Copyright (c) 2011-2014 Arduino.  All right reserved.
 
+  This Library has been modified by the OSU OPEnS Lab. Changes
+  are documented on the github here: https://github.com/OPEnSLab-OSU/WiFi201
+
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either

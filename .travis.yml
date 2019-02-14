@@ -3,12 +3,12 @@ env:
   global:
     - CLI_VERSION=latest
   matrix:
-    - BOARD="arduino:avr:uno"
-    - BOARD="arduino:avr:mega:cpu=atmega2560"
-    - BOARD="arduino:sam:arduino_due_x_dbg"
+    # - BOARD="arduino:avr:uno"
+    # - BOARD="arduino:avr:mega:cpu=atmega2560"
+    # - BOARD="arduino:sam:arduino_due_x_dbg"
     - BOARD="arduino:samd:arduino_zero_edbg"
-    - BOARD="arduino:samd:mkr1000"
-    - BOARD="Intel:arc32:arduino_101"
+    # - BOARD="arduino:samd:mkr1000"
+    # - BOARD="Intel:arc32:arduino_101"
 before_install:
   - wget http://downloads.arduino.cc/arduino-cli/arduino-cli-$CLI_VERSION-linux64.tar.bz2
   - tar xf arduino-cli-$CLI_VERSION-linux64.tar.bz2

@@ -1,12 +1,13 @@
-= WiFi library for the Arduino WiFi Shield 101 and MKR1000 board =
+= Upgraded WiFi library for the Arduino WiFi Shield 101 and MKR1000 board =
 
-image:https://travis-ci.org/arduino-libraries/WiFi101.svg?branch=master["Build Status", link="https://travis-ci.org/arduino-libraries/WiFi101"]
+This library implements features in new ATWINC1500 v19.5.0 driver into the existing WiFi101 interface, 
+including connecting to WPA2 Enterprise networks.  More details will be added here as the project progresses.
 
-This library implements a network driver for devices based
-on the ATMEL WINC1500 WiFi module.
-
-For more information about this library please visit us at
+For more information about the Wifi101 library please visit
 https://www.arduino.cc/en/Reference/WiFi101
+
+This Library has been modified by the OSU OPEnS Lab. Changes
+are documented on the Github here: https://github.com/OPEnSLab-OSU/WiFi201
 
 == License ==
 
