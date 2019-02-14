@@ -38,6 +38,7 @@
 #define USE_OLD_SPI_SW
 
 #include "bus_wrapper/include/nm_bus_wrapper.h"
+#include "nmasic.h"
 #include "nmspi.h"
 #include <stdint.h>
 
@@ -1237,9 +1238,14 @@ sint8 nm_spi_init(void)
 	/**
 		make sure can read back chip id correctly
 	**/
-	if (!spi_read_reg(0x1000, &chipid)) {
+	const uint8_t id = spi_read_reg(0x1000, &chipid);
+	if (!id) {
 		M2M_ERR("[nmi spi]: Fail cmd read chip id...\n");
 		return M2M_ERR_BUS_FAIL;
+	}
+	else if (REV(id) != REV_3A0) {
+		M2M_ERR("[nmi_spi]: Invalid wifi firmware version! Please upgrade your firmware, or check that you called WiFi.setPins().\n");
+		return M2M_ERR_FIRMWARE;
 	}
 
 	M2M_DBG("[nmi spi]: chipid (%08x)\n", (unsigned int)chipid);
