@@ -97,8 +97,9 @@ public:
 	 */
 	uint8_t begin();
 	uint8_t begin(const char *ssid);
-	uint8_t begin(const char *ssid, uint8_t key_idx, const char* key);
-	uint8_t begin(const char *ssid, const char *key);
+	uint8_t begin(const char *ssid, uint8_t key_idx, const char* key, const char* bssid = NULL);
+	uint8_t begin(const char *ssid, const char *key, const char* bssid = NULL);
+	uint8_t begin(const char *ssid, const char* user, const char* pass, const char* domain = NULL, const char* bssid = NULL);
 	uint8_t begin(const String &ssid) { return begin(ssid.c_str()); }
 	uint8_t begin(const String &ssid, uint8_t key_idx, const String &key) { return begin(ssid.c_str(), key_idx, key.c_str()); }
 	uint8_t begin(const String &ssid, const String &key) { return begin(ssid.c_str(), key.c_str()); }
@@ -190,7 +191,9 @@ private:
 	char _ssid[M2M_MAX_SSID_LEN];
 	unsigned long _timeout;
 
-	uint8_t startConnect(const char *ssid, uint8_t u8SecType, const void *pvAuthInfo);
+	inline tstrNetworkId createNetworkStruct(const char* ssid, const char* bssid = NULL);
+	void beforeConnect();
+	uint8_t afterConnect(const char* ssid);
 	uint8_t startAP(const char *ssid, uint8_t u8SecType, const void *pvAuthInfo, uint8_t channel);
 	uint8_t* remoteMacAddress(uint8_t* remoteMacAddress);
 

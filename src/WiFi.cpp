@@ -81,7 +81,9 @@ void WiFiClass::handleEvent(uint8_t u8MsgType, void *pvMsg)
 
 		case M2M_WIFI_RESP_CON_STATE_CHANGED:
 		{
+			Serial.println("State changed!");
 			tstrM2mWifiStateChanged *pstrWifiState = (tstrM2mWifiStateChanged *)pvMsg;
+			Serial.println(pstrWifiState->u8CurrState);
 			if (pstrWifiState->u8CurrState == M2M_WIFI_CONNECTED) {
 				//SERIAL_PORT_MONITOR.println("wifi_cb: M2M_WIFI_RESP_CON_STATE_CHANGED: CONNECTED");
 				if (_mode == WL_STA_MODE && !_dhcp) {
@@ -379,8 +381,19 @@ char* WiFiClass::firmwareVersion()
 	return _version;
 }
 
-uint8_t WiFiClass::begin()
-{
+// create a netork ID struct from the conventional ssid parameter 
+tstrNetworkId WiFiClass::createNetworkStruct(const char * ssid, const char* bssid) {
+	tstrNetworkId network;
+	memset(&network, 0, sizeof(tstrNetworkId));
+	network.enuChannel = M2M_WIFI_CH_ALL;
+	network.pu8Ssid = (uint8*) ssid;
+	network.pu8Bssid = (uint8*) bssid;
+	network.u8SsidLen = strlen(ssid);
+	return network;
+}
+
+// initialize the wifi interface, and clear all the storage vars
+void WiFiClass::beforeConnect() {
 	if (!_init) {
 		init();
 	}
@@ -391,6 +404,11 @@ uint8_t WiFiClass::begin()
 		_submask = 0;
 		_gateway = 0;
 	}
+}
+
+uint8_t WiFiClass::begin()
+{
+	beforeConnect();
 	if (m2m_wifi_default_connect() < 0) {
 		_status = WL_CONNECT_FAILED;
 		return _status;
@@ -422,41 +440,74 @@ uint8_t WiFiClass::begin()
 
 uint8_t WiFiClass::begin(const char *ssid)
 {
-	return startConnect(ssid, M2M_WIFI_SEC_OPEN, (void *)0);
-}
-
-uint8_t WiFiClass::begin(const char *ssid, uint8_t key_idx, const char* key)
-{
-	tstrM2mWifiWepParams wep_params;
-
-	memset(&wep_params, 0, sizeof(tstrM2mWifiWepParams));
-	wep_params.u8KeyIndx = key_idx;
-	wep_params.u8KeySz = strlen(key);
-	strcpy((char *)&wep_params.au8WepKey[0], key);
-	return startConnect(ssid, M2M_WIFI_SEC_WEP, &wep_params);
-}
-
-uint8_t WiFiClass::begin(const char *ssid, const char *key)
-{
-	return startConnect(ssid, M2M_WIFI_SEC_WPA_PSK, key);
-}
-
-uint8_t WiFiClass::startConnect(const char *ssid, uint8_t u8SecType, const void *pvAuthInfo)
-{
-	if (!_init) {
-		init();
-	}
-	
-	// Connect to router:
-	if (_dhcp) {
-		_localip = 0;
-		_submask = 0;
-		_gateway = 0;
-	}
-	if (m2m_wifi_connect((char*)ssid, strlen(ssid), u8SecType, (void*)pvAuthInfo, M2M_WIFI_CH_ALL) < 0) {
+	beforeConnect();
+	tstrNetworkId id = createNetworkStruct(ssid);
+	if (m2m_wifi_connect_open(WIFI_CRED_SAVE_ENCRYPTED, &id) < 0) {
 		_status = WL_CONNECT_FAILED;
 		return _status;
 	}
+	return afterConnect(ssid);
+}
+
+uint8_t WiFiClass::begin(const char *ssid, uint8_t key_idx, const char* key, const char* bssid)
+{
+	beforeConnect();
+	// create wep auth struct
+	tstrAuthWep wep_auth;
+	memset(&wep_auth, 0, sizeof(tstrAuthWep));
+	wep_auth.pu8WepKey = (uint8*) key;
+	wep_auth.u8KeyIndx = key_idx;
+	wep_auth.u8KeySz = strlen(key);
+
+	tstrNetworkId id = createNetworkStruct(ssid);
+	if (m2m_wifi_connect_wep(WIFI_CRED_SAVE_ENCRYPTED, &id, &wep_auth) < 0) {
+		_status = WL_CONNECT_FAILED;
+		return _status;
+	}
+	return afterConnect(ssid);
+}
+
+uint8_t WiFiClass::begin(const char *ssid, const char *key, const char* bssid)
+{
+	beforeConnect();
+	tstrNetworkId id = createNetworkStruct(ssid);
+	// create wpa2 struct
+	tstrAuthPsk wpa_auth;
+	memset(&wpa_auth, 0, sizeof(tstrAuthPsk));
+	wpa_auth.pu8Passphrase = (uint8*) key;
+	wpa_auth.u8PassphraseLen = strlen(key);
+	if (m2m_wifi_connect_psk(WIFI_CRED_SAVE_ENCRYPTED, &id, &wpa_auth) < 0) {
+		_status = WL_CONNECT_FAILED;
+		return _status;
+	}
+	return afterConnect(ssid);
+}
+
+uint8_t WiFiClass::begin(const char *ssid, const char* user, const char* pass, const char* domain, const char* bssid) {
+	beforeConnect();
+	tstrNetworkId id = createNetworkStruct(ssid, bssid);
+	// create mschapv2 auth struct
+	tstrAuth1xMschap2 ms_auth;
+	memset(&ms_auth, 0, sizeof(tstrAuth1xMschap2));
+	ms_auth.bPrependDomain = false;
+	ms_auth.bUnencryptedUserName = false;
+	ms_auth.pu8Domain = (uint8*) domain;
+	ms_auth.pu8Password = (uint8*) pass;
+	ms_auth.pu8UserName = (uint8*) user;
+	ms_auth.u16DomainLen = domain != NULL ? strlen(domain) : 0;
+	ms_auth.u16PasswordLen = strlen(pass);
+	ms_auth.u16UserNameLen = strlen(user);
+	sint8 ret = m2m_wifi_connect_1x_mschap2(WIFI_CRED_SAVE_ENCRYPTED, &id, &ms_auth);
+	Serial.print("Returned Value: ");
+	Serial.println(ret);
+	if (ret < 0) {
+		_status = WL_CONNECT_FAILED;
+		return _status;
+	}
+	return afterConnect(ssid);
+}
+
+uint8_t WiFiClass::afterConnect(const char * ssid) {
 	_status = WL_IDLE_STATUS;
 	_mode = WL_STA_MODE;
 
@@ -468,6 +519,8 @@ uint8_t WiFiClass::startConnect(const char *ssid, uint8_t u8SecType, const void 
 			break;
 		}
 	}
+	Serial.print("Status: ");
+	Serial.println(_status);
 	if (!(_status & WL_CONNECTED)) {
 		_mode = WL_RESET_MODE;
 	}
