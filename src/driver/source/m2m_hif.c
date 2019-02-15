@@ -77,6 +77,9 @@ typedef struct {
 }tstrHifContext;
 
 volatile tstrHifContext gstrHifCxt;
+#ifdef ARDUINO
+volatile uint8 hif_receive_blocked = 0;
+#endif
 
 #ifdef ETH_MODE
 extern void os_hook_isr(void);
@@ -97,6 +100,9 @@ static sint8 hif_set_rx_done(void)
 	uint32 reg;
 	sint8 ret = M2M_SUCCESS;
 
+#ifdef ARDUINO
+	hif_receive_blocked = 0;
+#endif
 	gstrHifCxt.u8HifRXDone = 0;
 #ifdef NM_EDGE_INTERRUPT
 	nm_bsp_interrupt_ctrl(1);
@@ -439,7 +445,11 @@ static sint8 hif_isr(void)
 	uint32 reg;
 	volatile tstrHifHdr strHif;
 
+#ifdef ARDUINO
+	ret = nm_read_reg_with_ret(WIFI_HOST_RCV_CTRL_0, (uint32*)&reg);
+#else
 	ret = nm_read_reg_with_ret(WIFI_HOST_RCV_CTRL_0, &reg);
+#endif
 	if(M2M_SUCCESS == ret)
 	{
 		if(reg & 0x1)	/* New interrupt has been received */
@@ -531,6 +541,11 @@ static sint8 hif_isr(void)
 					ret = M2M_ERR_BUS_FAIL;
 					goto ERR1;
 				}
+#ifdef ARDUINO
+				if (hif_receive_blocked) {
+					return ret;
+				}
+#endif
 				if(gstrHifCxt.u8HifRXDone)
 				{
 					M2M_ERR("(hif) host app didn't set RX Done <%u><%X>\n", strHif.u8Gid, strHif.u8Opcode);
@@ -549,6 +564,11 @@ static sint8 hif_isr(void)
 		{
 #ifndef WIN32
 			M2M_ERR("(hif) False interrupt %lx",reg);
+#ifdef ARDUINO
+			// ignore false interrupts, since they cause infinite loops in hif_handle_isr
+#else
+			ret = M2M_ERR_FAIL;
+#endif
 			goto ERR1;
 #else
 #endif
@@ -583,6 +603,12 @@ void hif_yield(void)
 sint8 hif_handle_isr(void)
 {
 	sint8 ret = M2M_SUCCESS;	
+
+#ifdef ARDUINO
+	if (hif_receive_blocked) {
+		return ret;
+	}
+#endif
 	
 	gstrHifCxt.u8Yield = 0;
 	while(gstrHifCxt.u8Interrupt && !gstrHifCxt.u8Yield)
@@ -606,6 +632,11 @@ sint8 hif_handle_isr(void)
 		while(1)
 		{
 			ret = hif_isr();
+#ifdef ARDUINO
+			if (hif_receive_blocked) {
+				return ret;
+			}
+#endif
 			if(ret == M2M_SUCCESS) {
 				/*we will try forever until we get that interrupt*/
 				/*Fail return errors here due to bus errors (reading expected values)*/

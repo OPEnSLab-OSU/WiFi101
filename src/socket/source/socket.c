@@ -809,14 +809,6 @@ sint16 send(SOCKET sock, void *pvSendBuffer, uint16 u16SendLength, uint16 flags)
 		{
 			u8Cmd			= SOCKET_CMD_SSL_SEND;
 			u16DataOffset	= gastrSockets[sock].u16DataOffset;
-#ifdef ARDUINO
-			extern uint32 nmdrv_firm_ver;
-
-			if (nmdrv_firm_ver < M2M_MAKE_VERSION(19, 4, 0)) {
-				// firmware 19.3.0 and older only works with this specific offset
-				u16DataOffset	= SSL_TX_PACKET_OFFSET;
-			}
-#endif
 		}
 
 		s16Ret =  SOCKET_REQUEST(u8Cmd|M2M_REQ_DATA_PKT, (uint8*)&strSend, sizeof(tstrSendCmd), pvSendBuffer, u16SendLength, u16DataOffset);
