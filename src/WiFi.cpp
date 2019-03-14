@@ -81,9 +81,9 @@ void WiFiClass::handleEvent(uint8_t u8MsgType, void *pvMsg)
 
 		case M2M_WIFI_RESP_CON_STATE_CHANGED:
 		{
-			Serial.println("State changed!");
+			// Serial.println("State changed!");
 			tstrM2mWifiStateChanged *pstrWifiState = (tstrM2mWifiStateChanged *)pvMsg;
-			Serial.println(pstrWifiState->u8CurrState);
+			// Serial.println(pstrWifiState->u8CurrState);
 			if (pstrWifiState->u8CurrState == M2M_WIFI_CONNECTED) {
 				//SERIAL_PORT_MONITOR.println("wifi_cb: M2M_WIFI_RESP_CON_STATE_CHANGED: CONNECTED");
 				if (_mode == WL_STA_MODE && !_dhcp) {
@@ -323,6 +323,9 @@ int WiFiClass::init()
 		return ret;
 	}
 
+	// enable firmare logs
+	m2m_wifi_enable_firmware_logs(1);
+
 	print("socketInit");
 	// Initialize socket API and register socket callback:
 	socketInit();
@@ -489,7 +492,7 @@ uint8_t WiFiClass::begin(const char *ssid, const char* user, const char* pass, c
 	// create mschapv2 auth struct
 	tstrAuth1xMschap2 ms_auth;
 	memset(&ms_auth, 0, sizeof(tstrAuth1xMschap2));
-	ms_auth.bPrependDomain = false;
+	ms_auth.bPrependDomain = true;
 	ms_auth.bUnencryptedUserName = false;
 	ms_auth.pu8Domain = (uint8*) domain;
 	ms_auth.pu8Password = (uint8*) pass;
@@ -498,8 +501,6 @@ uint8_t WiFiClass::begin(const char *ssid, const char* user, const char* pass, c
 	ms_auth.u16PasswordLen = strlen(pass);
 	ms_auth.u16UserNameLen = strlen(user);
 	sint8 ret = m2m_wifi_connect_1x_mschap2(WIFI_CRED_SAVE_ENCRYPTED, &id, &ms_auth);
-	Serial.print("Returned Value: ");
-	Serial.println(ret);
 	if (ret < 0) {
 		_status = WL_CONNECT_FAILED;
 		return _status;
